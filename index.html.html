@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vilankulos Tourism Connections — Destination Coordination Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0E233A;--gold:#B8963E;--gold-light:#D4AF62;--white:#FFFFFF;
+  --offwhite:#F5F0E8;--text:#3D3D3D;--text-muted:#6B6B6B;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--text);background:var(--white);font-size:16px;line-height:1.7}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--navy);border-bottom:1px solid rgba(184,150,62,0.2);padding:0 5%}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.logo-name{font-family:var(--sans);font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:1.5px;text-transform:uppercase;line-height:1.4}
+.logo-name span{display:block}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;letter-spacing:0.5px;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold);color:var(--navy)!important;padding:9px 20px;border-radius:2px;font-weight:500;font-size:13px!important}
+.nav-cta:hover{background:var(--gold-light)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:1.5px;background:rgba(255,255,255,0.8)}
+
+.hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;padding:120px 5% 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1586861203927-800a5acdcc4d?w=1600&q=80') center/cover no-repeat;opacity:0.1}
+.hero-bg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,35,58,0.97) 0%,rgba(14,35,58,0.88) 60%,rgba(14,35,58,0.75) 100%)}
+.hero-content{position:relative;max-width:1200px;margin:0 auto;width:100%}
+.hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0.9}
+.hero h1{font-family:var(--serif);font-size:clamp(52px,7vw,88px);font-weight:500;color:var(--white);line-height:1.05;margin-bottom:28px;letter-spacing:-0.5px}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:clamp(15px,1.8vw,18px);color:rgba(255,255,255,0.6);max-width:600px;line-height:1.8;margin-bottom:52px;font-weight:300}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--navy);padding:14px 32px;border-radius:2px;font-size:14px;font-weight:500;text-decoration:none;letter-spacing:0.5px;transition:background 0.2s;display:inline-block}
+.btn-primary:hover{background:var(--gold-light)}
+.btn-outline{border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:14px 32px;border-radius:2px;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:0.5px;transition:all 0.2s;display:inline-block}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.35}
+.hero-scroll span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--white)}
+.scroll-line{width:1px;height:40px;background:var(--gold)}
+
+section{padding:96px 5%}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.section-title{font-family:var(--serif);font-size:clamp(32px,4vw,48px);font-weight:500;line-height:1.15;margin-bottom:24px;color:var(--navy)}
+.section-sub{font-size:17px;color:var(--text-muted);max-width:600px;line-height:1.75;font-weight:300}
+
+.problem{background:var(--offwhite)}
+.problem-intro{margin-bottom:64px}
+.problems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(14,35,58,0.1);border:1px solid rgba(14,35,58,0.1)}
+.problem-card{background:var(--offwhite);padding:36px 28px;transition:background 0.25s}
+.problem-card:hover{background:var(--white)}
+.problem-num{font-family:var(--serif);font-size:44px;font-weight:400;color:rgba(184,150,62,0.25);line-height:1;margin-bottom:12px}
+.problem-card h3{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--navy);margin-bottom:10px;line-height:1.25}
+.problem-card p{font-size:14px;color:var(--text-muted);line-height:1.65}
+
+.how{background:var(--navy)}
+.how .section-title{color:var(--white)}
+.how .section-sub{color:rgba(255,255,255,0.5)}
+.flow{margin-top:64px;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:rgba(255,255,255,0.06)}
+.flow-step{background:var(--navy);padding:32px 24px}
+.flow-step-num{font-family:var(--serif);font-size:32px;color:rgba(184,150,62,0.2);line-height:1;margin-bottom:16px}
+.flow-step h3{font-family:var(--serif);font-size:17px;font-weight:500;color:var(--gold);margin-bottom:12px;line-height:1.2}
+.flow-step p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.65}
+.flow-channels{margin-top:2px;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,0.06)}
+.flow-channel{background:rgba(255,255,255,0.03);padding:20px 24px;border-top:2px solid rgba(184,150,62,0.15)}
+.flow-channel-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px}
+.flow-channel-items{display:flex;flex-wrap:wrap;gap:8px}
+.flow-tag{font-size:12px;color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:2px}
+
+.forwhom{background:var(--white)}
+.forwhom-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:56px;background:rgba(14,35,58,0.08)}
+.fw-panel{padding:52px 44px;background:var(--white)}
+.fw-panel.dark{background:var(--navy)}
+.fw-panel-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.fw-panel h3{font-family:var(--serif);font-size:26px;font-weight:500;margin-bottom:8px;color:var(--navy);line-height:1.2}
+.fw-panel.dark h3{color:var(--white)}
+.fw-panel-sub{font-size:14px;color:var(--text-muted);margin-bottom:28px;font-weight:300;line-height:1.6}
+.fw-panel.dark .fw-panel-sub{color:rgba(255,255,255,0.45)}
+.fw-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.fw-features li{font-size:14px;color:var(--text-muted);padding-left:20px;position:relative;line-height:1.6}
+.fw-panel.dark .fw-features li{color:rgba(255,255,255,0.55)}
+.fw-features li::before{content:'·';position:absolute;left:0;color:var(--gold);font-size:18px;line-height:1.4}
+.btn-gold{background:var(--gold);color:var(--navy);padding:12px 28px;border-radius:2px;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:0.5px;display:inline-block;transition:background 0.2s;cursor:pointer}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-outline-gold{border:1px solid var(--gold);color:var(--gold);padding:12px 28px;border-radius:2px;font-size:13px;font-weight:400;text-decoration:none;letter-spacing:0.5px;display:inline-block;transition:all 0.2s;cursor:pointer}
+.btn-outline-gold:hover{background:rgba(184,150,62,0.08)}
+
+.destination{background:var(--offwhite)}
+.dest-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-top:56px}
+.dest-text p{font-size:16px;color:var(--text);line-height:1.8;margin-bottom:20px;font-weight:300}
+.dest-text p strong{font-weight:500;color:var(--navy)}
+.dest-op-item{padding:20px 0;border-bottom:1px solid rgba(14,35,58,0.1);display:flex;align-items:flex-start;gap:16px}
+.dest-op-item:last-child{border-bottom:none}
+.dest-op-icon{width:36px;height:36px;border:1px solid rgba(184,150,62,0.3);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;color:var(--gold);font-family:var(--serif)}
+.dest-op-item h4{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--navy);margin-bottom:4px}
+.dest-op-item p{font-size:13px;color:var(--text-muted);line-height:1.6}
+.dest-note{margin-top:32px;padding:20px 24px;background:var(--white);border-left:2px solid var(--gold)}
+.dest-note p{font-size:13px;color:var(--text-muted);line-height:1.65}
+.dest-note strong{color:var(--navy);font-weight:500}
+
+.about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px}
+.about-text p{font-size:16px;color:var(--text);line-height:1.8;margin-bottom:20px;font-weight:300}
+.about-text p strong{font-weight:500;color:var(--navy)}
+.accountability-card{background:var(--offwhite);padding:36px;border-left:2px solid var(--gold)}
+.accountability-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.accountability-title{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--navy);margin-bottom:16px;line-height:1.3}
+.accountability-body{font-size:14px;color:var(--text-muted);line-height:1.75;margin-bottom:24px}
+.accountability-items{display:flex;flex-direction:column;gap:12px}
+.acc-item{display:flex;align-items:flex-start;gap:12px}
+.acc-item span{color:var(--gold);font-size:18px;line-height:1;margin-top:2px;flex-shrink:0}
+.acc-item p{font-size:13px;color:var(--text-muted);line-height:1.6}
+.vision-block{margin-top:32px;padding:32px 36px;background:var(--navy)}
+.vision-block p{font-family:var(--serif);font-size:19px;font-style:italic;color:rgba(255,255,255,0.8);line-height:1.7}
+.vision-block cite{display:block;font-size:11px;font-style:normal;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-top:16px;font-family:var(--sans)}
+
+.cta-band{background:var(--navy);padding:80px 5%;text-align:center}
+.cta-band h2{font-family:var(--serif);font-size:clamp(28px,3.5vw,42px);color:var(--white);font-weight:500;margin-bottom:16px}
+.cta-band p{font-size:16px;color:rgba(255,255,255,0.4);margin-bottom:44px;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+.contact{background:var(--offwhite)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px}
+.contact-info h3{font-family:var(--serif);font-size:24px;color:var(--navy);font-weight:500;margin-bottom:16px}
+.contact-info p{font-size:15px;color:var(--text-muted);line-height:1.75;margin-bottom:32px;font-weight:300}
+.contact-detail{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.contact-detail span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);min-width:60px}
+.contact-detail a{font-size:14px;color:var(--text);text-decoration:none}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:var(--white);border:1px solid rgba(14,35,58,0.15);border-radius:0;padding:12px 16px;font-family:var(--sans);font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-submit{width:100%;background:var(--navy);color:var(--white);border:none;padding:14px;font-family:var(--sans);font-size:14px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background 0.2s}
+.form-submit:hover{background:#1a3a5c}
+.form-success{display:none;padding:20px;background:rgba(184,150,62,0.08);border:1px solid rgba(184,150,62,0.3);text-align:center;font-size:14px;color:var(--navy);margin-top:12px}
+
+footer{background:var(--navy);padding:60px 5% 32px;border-top:1px solid rgba(184,150,62,0.15)}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:64px;margin-bottom:48px}
+.footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.footer-logo img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.footer-logo-name{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);line-height:1.5}
+.footer-about p{font-size:13px;color:rgba(255,255,255,0.35);line-height:1.75;max-width:280px;font-weight:300}
+.footer-col h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:20px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;margin-bottom:12px;transition:color 0.2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:28px;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,0.22);letter-spacing:0.5px}
+.footer-gold-line{width:32px;height:1px;background:var(--gold);opacity:0.4}
+
+@media(max-width:900px){.flow{grid-template-columns:1fr 1fr}.flow-channels{grid-template-columns:1fr}}
+@media(max-width:768px){
+  .nav-links{display:none}.hamburger{display:flex}
+  .forwhom-grid,.dest-grid,.about-grid,.contact-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .problems-grid{grid-template-columns:1fr 1fr}
+  .flow{grid-template-columns:1fr}
+}
+@media(max-width:480px){.problems-grid{grid-template-columns:1fr}.hero-ctas{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <img src="https://i.imgur.com/Saai0zr.png" alt="VTC Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;width:46px;height:46px;border-radius:50%;border:1.5px solid #B8963E;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#B8963E;letter-spacing:1.5px">VTC</span>
+      </div>
+      <div class="logo-name"><span>Vilankulos Tourism</span><span>Connections</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#problem">The Problem</a>
+      <a href="#agencies">For Agencies</a>
+      <a href="#operators">For Operators</a>
+      <a href="#destination">The Destination</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-label">Destination Coordination Infrastructure · Vilankulos · Mozambique</div>
+    <h1>Vilankulos.<br><em>Coordinated.</em></h1>
+    <p class="hero-sub">VTC is the coordination and trust layer between international agencies and local operators in Vilankulos. We resolve the structural fragmentation that costs the destination value and agencies their reputation.</p>
+    <div class="hero-ctas">
+      <a href="#agencies" class="btn-primary">For Agencies</a>
+      <a href="#operators" class="btn-outline">For Operators</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Explore</span></div>
+</section>
+
+<section class="problem" id="problem">
+  <div class="section-inner">
+    <div class="problem-intro">
+      <div class="section-label">Diagnosis</div>
+      <h2 class="section-title">Where the destination loses value</h2>
+      <p class="section-sub">These are not abstract risks. They are the operational failures that occur in Vilankulos every season and that agencies absorb as reputational cost.</p>
+    </div>
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="problem-num">01</div>
+        <h3>No accountable ground contact</h3>
+        <p>Agencies send clients to a destination where no single operator owns coordination. Transfers fail. Pickups are missed. Nobody is accountable when it goes wrong.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">02</div>
+        <h3>Unvetted operator selection</h3>
+        <p>Operators are selected by availability or commission, not by verified capability. Quality is inconsistent across bookings, seasons and client profiles.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <h3>No destination-level response</h3>
+        <p>When something goes wrong in the field, there is no coordination layer to intervene. Agencies find out after the fact, from the client.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">04</div>
+        <h3>Zero operational data</h3>
+        <p>No structured reporting on what was delivered, what failed or what the client experienced. Every booking starts from zero.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">05</div>
+        <h3>Price as the only signal</h3>
+        <p>Without a coordination layer, agencies default to price comparison. Operators race to the bottom and the destination loses its positioning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="section-label">Operational model</div>
+    <h2 class="section-title">How VTC operates</h2>
+    <p class="section-sub">VTC functions as a structured system, not a concierge service. Every request enters a defined process with clear handoffs, documented outputs and accountability at each stage.</p>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-step-num">01</div>
+        <h3>Request intake</h3>
+        <p>Agency or client submits a brief. VTC confirms receipt and opens a coordination file with scope, dates and requirements.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">02</div>
+        <h3>Qualification</h3>
+        <p>VTC assesses the request against current operator availability, verified capability and destination conditions.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">03</div>
+        <h3>Allocation</h3>
+        <p>Vetted operators are assigned based on fit, not proximity or commission. VTC confirms allocation in writing.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">04</div>
+        <h3>Ground execution</h3>
+        <p>VTC maintains live coordination during operations. Single point of contact for transfers, timing and on-ground issues.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">05</div>
+        <h3>Reporting</h3>
+        <p>Post-operation debrief delivered to the agency covering what was executed, what deviated and operator performance data.</p>
+      </div>
+    </div>
+    <div class="flow-channels">
+      <div class="flow-channel">
+        <div class="flow-channel-label">Distribution inputs</div>
+        <div class="flow-channel-items">
+          <span class="flow-tag">International agencies</span>
+          <span class="flow-tag">National agencies</span>
+          <span class="flow-tag">Qualified direct clients</span>
+        </div>
+      </div>
+      <div class="flow-channel">
+        <div class="flow-channel-label">Operator network</div>
+        <div class="flow-channel-items">
+          <span class="flow-tag">Accommodation — Lodges · Villas · Hotels</span>
+          <span class="flow-tag">Marine Operators — Boats · Diving · Fishing</span>
+          <span class="flow-tag">Guides & Activities — Land-based experiences</span>
+          <span class="flow-tag">Transfers — Helicopter · Vehicle</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="forwhom" id="agencies">
+  <div class="section-inner">
+    <div class="section-label">Value proposition</div>
+    <h2 class="section-title">Built for both sides of the operation</h2>
+    <div class="forwhom-grid">
+      <div class="fw-panel">
+        <div class="fw-panel-tag">For agencies</div>
+        <h3>One contact. Full accountability.</h3>
+        <p class="fw-panel-sub">Stop absorbing the operational risk of a fragmented destination. VTC is your single interface to Vilankulos, with documented process and accountable execution.</p>
+        <ul class="fw-features">
+          <li>Structured response to every request within a defined timeframe</li>
+          <li>Pre-vetted operators across every service category</li>
+          <li>Live coordination during client operations on the ground</li>
+          <li>Post-operation report with full execution data</li>
+          <li>Reputational risk absorbed at destination level, not agency level</li>
+        </ul>
+        <a href="#contact" class="btn-gold">Start a conversation</a>
+      </div>
+      <div class="fw-panel dark" id="operators">
+        <div class="fw-panel-tag">For operators</div>
+        <h3>Qualified demand. Structured access.</h3>
+        <p class="fw-panel-sub">Stop competing on price with operators who underdeliver. VTC connects vetted operators to agencies that select on quality and routes demand to those who earn it.</p>
+        <ul class="fw-features">
+          <li>Direct access to national and international agency channels</li>
+          <li>Requests arrive pre-qualified and properly scoped</li>
+          <li>Performance data builds your positioning within the network</li>
+          <li>Coordination support reduces your operational overhead</li>
+          <li>Selection based on verified capability, not lowest quote</li>
+        </ul>
+        <a href="#contact" class="btn-outline-gold">Apply to the network</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="destination" id="destination">
+  <div class="section-inner">
+    <div class="section-label">Destination context</div>
+    <h2 class="section-title">Why this destination requires coordination</h2>
+    <div class="dest-grid">
+      <div class="dest-text">
+        <p>Vilankulos is the operational gateway to the <strong>Bazaruto Archipelago</strong>, a Marine National Park accessible only by boat, spanning five islands across 1,430 km² of protected ocean in southern Mozambique.</p>
+        <p>The destination's structure creates <strong>inherent coordination complexity</strong>. Island access depends on marine operators, weather windows and permit compliance. No single operator controls the full experience. Without a coordination layer, failure points multiply across every itinerary.</p>
+        <p>Vilankulos also operates with <strong>limited tourism infrastructure</strong> relative to demand. Accommodation, marine operations and ground transfers run as independent businesses with no shared communication or quality standard. VTC exists to close that gap systematically.</p>
+        <div class="dest-note">
+          <p><strong>Operational season:</strong> April to November — stable wind and sea conditions, optimal for marine coordination.<br><br>
+          <strong>Shoulder season:</strong> December to March — operational with qualified operators; higher weather variability requires tighter coordination protocols.</p>
+        </div>
+      </div>
+      <div>
+        <div class="dest-op-item">
+          <div class="dest-op-icon">I</div>
+          <div>
+            <h4>Island access logistics</h4>
+            <p>All Archipelago operations require boat coordination, departure timing and weather monitoring. There is no walk-in access to any island.</p>
+          </div>
+        </div>
+        <div class="dest-op-item">
+          <div class="dest-op-icon">II</div>
+          <div>
+            <h4>Multi-operator dependency</h4>
+            <p>A standard client itinerary involves 3 to 5 independent operators. Coordination failures compound across every handoff.</p>
+          </div>
+        </div>
+        <div class="dest-op-item">
+          <div class="dest-op-icon">III</div>
+          <div>
+            <h4>Permit and compliance layer</h4>
+            <p>Marine National Park entry, diving certifications and vessel licensing require verified compliance. Gaps expose agencies to direct liability.</p>
+          </div>
+        </div>
+        <div class="dest-op-item">
+          <div class="dest-op-icon">IV</div>
+          <div>
+            <h4>No shared quality standard</h4>
+            <p>Without a vetting layer, agencies have no basis to distinguish capable operators from unreliable ones before the client arrives.</p>
+          </div>
+        </div>
+        <div class="dest-op-item">
+          <div class="dest-op-icon">V</div>
+          <div>
+            <h4>Communication infrastructure gaps</h4>
+            <p>Connectivity in the Archipelago is limited. Real-time coordination requires established protocols, not improvised contact.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="section-inner">
+    <div class="section-label">About VTC</div>
+    <h2 class="section-title">Infrastructure, not intermediation</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>VTC is a destination coordination company. We operate as the <strong>trust and execution layer</strong> between distribution channels and local operators in Vilankulos, not as a travel agency and not as a booking platform.</p>
+        <p>Our function is structural. We qualify operators, manage request routing, coordinate ground execution and document outcomes. We remove the coordination gap that currently sits between an agency's sale and a client's experience.</p>
+        <p>We are built for <strong>B2B operations</strong>. Our clients are agencies that need a reliable and accountable destination partner, and operators that need structured access to demand without competing on price alone.</p>
+        <div class="vision-block">
+          <p>"To make Vilankulos operationally legible — a destination that agencies can distribute with confidence and operators can serve with structure."</p>
+          <cite>VTC Mission</cite>
+        </div>
+      </div>
+      <div>
+        <div class="accountability-card">
+          <div class="accountability-tag">Operational accountability</div>
+          <div class="accountability-title">Ground execution is our responsibility, not a disclaimer.</div>
+          <div class="accountability-body">Tourism operations in destinations like Vilankulos depend on precision. Small failures in coordination affect entire guest experiences and agency reputation. At VTC, we take direct responsibility for ground execution, ensuring every transfer, pickup and coordination point is handled with reliability and clarity.</div>
+          <div class="accountability-items">
+            <div class="acc-item">
+              <span>·</span>
+              <p>Single accountable contact for every operation</p>
+            </div>
+            <div class="acc-item">
+              <span>·</span>
+              <p>Real-time communication at every coordination point</p>
+            </div>
+            <div class="acc-item">
+              <span>·</span>
+              <p>Post-operation debrief and performance documentation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to coordinate the destination?</h2>
+  <p>Whether you are an agency that needs a reliable ground partner or an operator that needs structured access to demand, the conversation starts here.</p>
+  <div class="cta-buttons">
+    <a href="#contact" class="btn-primary">Talk to us about a partnership</a>
+    <a href="#contact" class="btn-outline">Join the VTC network</a>
+  </div>
+</div>
+
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Start a conversation</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>We are in Vilankulos.</h3>
+        <p>If you are an agency evaluating a destination partnership or an operator seeking structured access to distribution, reach out directly. We respond to every qualified inquiry within 48 hours.</p>
+        <div class="contact-detail">
+          <span>Email</span>
+          <a href="mailto:vtconnections@gmail.com">vtconnections@gmail.com</a>
+        </div>
+        <div class="contact-detail">
+          <span>WhatsApp</span>
+          <a href="https://wa.me/258876083014" target="_blank">+258 876 083 014</a>
+        </div>
+        <div class="contact-detail">
+          <span>Location</span>
+          <a href="#">Vilankulos, Inhambane, Mozambique</a>
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="f-name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Organisation</label>
+          <input type="text" id="f-org" placeholder="Company or organisation name">
+        </div>
+        <div class="form-group">
+          <label>Profile</label>
+          <select id="f-type">
+            <option value="">Select your profile</option>
+            <option>International agency</option>
+            <option>National agency</option>
+            <option>Local operator</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="f-msg" placeholder="Briefly describe your operational context and what you are looking for"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm()">Send message</button>
+        <div class="form-success" id="form-success">Message received. We will respond within 48 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="https://i.imgur.com/Saai0zr.png" alt="VTC" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(184,150,62,0.5);align-items:center;justify-content:center;flex-shrink:0">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#B8963E;letter-spacing:1.5px">VTC</span>
+          </div>
+          <div class="footer-logo-name">Vilankulos Tourism<br>Connections</div>
+        </div>
+        <p>Destination coordination and trust infrastructure for tourism operations in Vilankulos and the Bazaruto Archipelago, Mozambique.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="#problem">The Problem</a>
+        <a href="#how">How It Works</a>
+        <a href="#destination">The Destination</a>
+        <a href="#about">About VTC</a>
+      </div>
+      <div class="footer-col">
+        <h4>Partners</h4>
+        <a href="#agencies">For Agencies</a>
+        <a href="#operators">For Operators</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Vilankulos Tourism Connections · All rights reserved</p>
+      <div class="footer-gold-line"></div>
+      <p>Vilankulos · Inhambane · Mozambique</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){
+  var l=document.querySelector('.nav-links');
+  var open=l.getAttribute('data-open')==='1';
+  if(open){l.removeAttribute('data-open');l.style.display='none';}
+  else{l.setAttribute('data-open','1');l.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:#0E233A;padding:24px 5%;gap:20px;border-bottom:1px solid rgba(184,150,62,0.15);z-index:99';}
+}
+function submitForm(){
+  var n=document.getElementById('f-name').value;
+  var o=document.getElementById('f-org').value;
+  var t=document.getElementById('f-type').value;
+  var m=document.getElementById('f-msg').value;
+  if(!n||!o||!t||!m){alert('Please fill in all fields.');return;}
+  document.getElementById('form-success').style.display='block';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-org').value='';
+  document.getElementById('f-type').value='';
+  document.getElementById('f-msg').value='';
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+    var l=document.querySelector('.nav-links');
+    if(window.innerWidth<=768){l.style.display='none';l.removeAttribute('data-open');}
+  });
+});
+</script>
+</body>
+</html>
